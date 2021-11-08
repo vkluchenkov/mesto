@@ -1,0 +1,14 @@
+.title__name-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  transform: translateX(10px);
+}
+
+@media screen and (min-width: 768px) {
+  .title__name-wrapper {
+    justify-content: flex-start;
+    transform: none;
+  }
+}

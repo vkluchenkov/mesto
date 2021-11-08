@@ -18,12 +18,11 @@
       <section class="title">
         <img src="./images/Avatar.png" alt="Жак-Ив Кусто" class="title__image">
         <div class="title__titles">
-          <h1 class="title__name">
-            Жак-Ив Кусто <span class="title__name-edit"></span>
-          </h1>
-          <p class="title__description">
-            Исследователь океана
-          </p>
+          <div class="title__name-wrapper">
+            <h1 class="title__name">Жак-Ив Кусто</h1>
+            <div class="title__name-edit"></div>
+          </div>
+          <p class="title__description">Исследователь океана</p>
         </div>
         <button class="title__button"></button>
       </section>
@@ -91,6 +90,19 @@
     <footer class="footer">
       <p class="footer__copyright">© 2020. Mesto Russia</p>
     </footer>
+
+    <section class="popup">
+      <div class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" class="popup__input popup__input_type_name">
+        <input type="text" class="popup__input popup__input_type_description">
+        <button class="popup__submit-button">Сохранить</button>
+        <button class="popup__close-button"></button>
+      </div>
+    </section>
+
+    <script src="js/script.js"></script>
+
 </body>
 
 </html>
