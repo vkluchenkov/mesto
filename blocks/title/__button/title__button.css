@@ -1,5 +1,6 @@
 .title__button {
   width: 100%;
+  max-width: 150px;
   height: 50px;
   background-color: black;
   background-image: url(../../../images/button_plus.svg);
