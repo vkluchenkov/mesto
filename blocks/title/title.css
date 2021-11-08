@@ -1,0 +1,7 @@
+.title {
+  padding-bottom: 18px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,0 +1,8 @@
+.title__name {
+  font-size: 27px;
+  line-height: 33px;
+  text-align: center;
+  font-weight: 500;
+  margin: 25px 0 7px;
+  transform: translateX(15px);
+}

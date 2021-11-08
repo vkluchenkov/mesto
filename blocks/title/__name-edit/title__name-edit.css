@@ -1,0 +1,15 @@
+.title__name-edit {
+  display: inline-block;
+  margin: 0 0 0 5px;
+  background: url(../../../images/edit_button.svg);
+  background-size: 100%;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  transition: opacity .3s;
+  opacity: 1;
+}
+
+.title__name-edit:hover {
+  opacity: .6;
+}
