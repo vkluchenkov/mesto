@@ -4,8 +4,6 @@
 
 @media screen and (min-width: 768px) {
   .title__titles {
-   display: flex;
-   flex-direction: column;
-   align-content: center;
+    overflow: hidden;
   }
 }

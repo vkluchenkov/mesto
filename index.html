@@ -16,15 +16,15 @@
     <main class="content">
 
       <section class="title">
-        <img src="./images/Avatar.png" alt="Жак-Ив Кусто" class="title__image">
+        <img src="./images/Avatar.png" alt="Изображение профиля" class="title__image">
         <div class="title__titles">
           <div class="title__name-wrapper">
             <h1 class="title__name">Жак-Ив Кусто</h1>
-            <div class="title__name-edit"></div>
+            <button type="button" class="title__name-edit"></button>
           </div>
           <p class="title__description">Исследователь океана</p>
         </div>
-        <button class="title__button"></button>
+        <button class="title__button" type="button"></button>
       </section>
 
       <section class="places">
@@ -35,7 +35,7 @@
                 <h2 class="place__name">
                   Карачаевск
                 </h2>
-                <button class="place__like"></button>
+                <button class="place__like" type="button"></button>
               </div>
             </li>
             <li class="place">
@@ -44,7 +44,7 @@
                 <h2 class="place__name">
                   Гора Эльбрус
                 </h2>
-                <button class="place__like"></button>
+                <button class="place__like" type="button"></button>
               </div>
             </li>
             <li class="place">
@@ -53,7 +53,7 @@
                 <h2 class="place__name">
                   Домбай
                 </h2>
-                <button class="place__like"></button>
+                <button class="place__like" type="button"></button>
               </div>
             </li>
             <li class="place">
@@ -62,7 +62,7 @@
                 <h2 class="place__name">
                   Карачаево-Черкессия
                 </h2>
-                <button class="place__like"></button>
+                <button class="place__like" type="button"></button>
               </div>
             </li>
             <li class="place">
@@ -71,7 +71,7 @@
                 <h2 class="place__name">
                   Карачаевск
                 </h2>
-                <button class="place__like"></button>
+                <button class="place__like" type="button"></button>
               </div>
             </li>
             <li class="place">
@@ -80,7 +80,7 @@
                 <h2 class="place__name">
                   Карачаевск
                 </h2>
-                <button class="place__like"></button>
+                <button class="place__like" type="button"></button>
               </div>
             </li>
           </ul>
@@ -88,18 +88,18 @@
     </main>
 
     <footer class="footer">
-      <p class="footer__copyright">© 2020. Mesto Russia</p>
+      <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
     </footer>
 
-    <section class="popup">
-      <div class="popup__container">
+    <div class="popup">
+      <form name="profile-edit" class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input popup__input_type_name">
-        <input type="text" class="popup__input popup__input_type_description">
-        <button class="popup__submit-button">Сохранить</button>
-        <button class="popup__close-button"></button>
-      </div>
-    </section>
+        <input name="name" type="text" class="popup__input popup__input_type_name">
+        <input name="description" type="text" class="popup__input popup__input_type_description">
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+        <button class="popup__close-button" type="reset"></button>
+      </form>
+    </div>
 
     <script src="js/script.js"></script>
 

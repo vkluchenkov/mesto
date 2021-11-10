@@ -1,6 +1,5 @@
 .title__button {
   width: 100%;
-  max-width: 150px;
   height: 50px;
   background-color: black;
   background-image: url(../../../images/button_plus.svg);
@@ -8,6 +7,7 @@
   background-repeat: no-repeat;
   background-position: center;
   border: 2px solid white;
+  border-radius: 2px;
   color: white;
   cursor: pointer;
   transition: opacity .3s;
@@ -17,4 +17,11 @@
 
 .title__button:hover {
   opacity: .6;
+}
+
+@media screen and (min-width: 768px) {
+  .title__button {
+    background-size: 22px;
+    width: 150px;
+  }
 }

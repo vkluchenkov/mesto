@@ -1,31 +1,39 @@
+// Search for edit name button
 let editButton = document.querySelector('.title__name-edit')
-let popup = document.querySelector('.popup')
-let closeButton = popup.querySelector('.popup__close-button')
+
+// Search for current values of Name and Description
 let titleName = document.querySelector('.title__name')
 let titleDescription = document.querySelector('.title__description')
+
+// Search for popup form
+let popup = document.querySelector('.popup')
+
+// Search for form close button
+let closeButton = popup.querySelector('.popup__close-button')
+
+// Search for form inputs for Name and Descripiton
 let popupName = popup.querySelector('.popup__input_type_name')
 let popupDescription = popup.querySelector('.popup__input_type_description')
-let submitButton = popup.querySelector('.popup__submit-button')
 
-popupName.setAttribute('value', titleName.textContent)
-popupDescription.setAttribute('value', titleDescription.textContent)
+// Assigning inputs value from current document values
+popupName.value = titleName.textContent
+popupDescription.value = titleDescription.textContent
 
-function popupOpen() {
+function openPopup() {
   popup.classList.add('popup_opened')
 }
 
-function popupClose() {
+function closePopup() {
   popup.classList.remove('popup_opened')
 }
 
-editButton.addEventListener('click', popupOpen)
-closeButton.addEventListener('click', popupClose)
-
 function formSubmitHandler (evt) {
-    evt.preventDefault();
-    titleName.textContent = popupName.value
-    titleDescription.textContent = popupDescription.value
-    popupClose()
+  evt.preventDefault();
+  titleName.textContent = popupName.value
+  titleDescription.textContent = popupDescription.value
+  closePopup()
 }
 
-submitButton.addEventListener('click', formSubmitHandler);
+editButton.addEventListener('click', openPopup)
+closeButton.addEventListener('click', closePopup)
+popup.addEventListener('submit', formSubmitHandler);
