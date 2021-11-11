@@ -5,8 +5,9 @@ let editButton = document.querySelector('.title__name-edit')
 let titleName = document.querySelector('.title__name')
 let titleDescription = document.querySelector('.title__description')
 
-// Search for popup form
+// Search for popup element and form
 let popup = document.querySelector('.popup')
+let form = popup.querySelector('[name="profile-edit"]')
 
 // Search for form close button
 let closeButton = popup.querySelector('.popup__close-button')
@@ -15,11 +16,11 @@ let closeButton = popup.querySelector('.popup__close-button')
 let popupName = popup.querySelector('.popup__input_type_name')
 let popupDescription = popup.querySelector('.popup__input_type_description')
 
-// Assigning inputs value from current document values
-popupName.value = titleName.textContent
-popupDescription.value = titleDescription.textContent
 
 function openPopup() {
+  popupName.value = titleName.textContent
+  popupDescription.value = titleDescription.textContent
+
   popup.classList.add('popup_opened')
 }
 
@@ -36,4 +37,4 @@ function formSubmitHandler (evt) {
 
 editButton.addEventListener('click', openPopup)
 closeButton.addEventListener('click', closePopup)
-popup.addEventListener('submit', formSubmitHandler);
+form.addEventListener('submit', formSubmitHandler);
