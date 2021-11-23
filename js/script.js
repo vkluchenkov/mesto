@@ -84,12 +84,16 @@ const popups = [
     title: "Редактировать профиль",
     input1Value: currentName.textContent,
     input2Value: currentDescription.textContent,
+    input1Placeholder: "",
+    input2Placeholder: "",
   },
   {
     name: "add_place",
     title: "Добавить место",
     input1Value: "",
     input2Value: "",
+    input1Placeholder: "Название",
+    input2Placeholder: "Ссылка на картинку",
   },
 ];
 
@@ -99,7 +103,11 @@ const createPopup = (p) => {
   popupElement.querySelector(".popup__title").textContent = p.title;
   popupElement.querySelector(".popup__form").name = p.name;
   popupElement.querySelector(".popup__first-input").value = p.input1Value;
+  popupElement.querySelector(".popup__first-input").placeholder =
+    p.input1Placeholder;
   popupElement.querySelector(".popup__second-input").value = p.input2Value;
+  popupElement.querySelector(".popup__second-input").placeholder =
+    p.input2Placeholder;
   popupElement.id = p.name;
 
   const closeButton = popupElement.querySelector(".popup__close-button");
@@ -150,6 +158,7 @@ const editProfile = (evt) => {
 const addPlace = (evt) => {
   const firstInput = evt.target.querySelector(".popup__first-input");
   const secondInput = evt.target.querySelector(".popup__second-input");
+
   const card = {
     name: firstInput.value,
     link: secondInput.value,
