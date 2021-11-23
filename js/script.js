@@ -1,186 +1,93 @@
-// Cards data
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
+import { initialCards } from "./cards.js";
+
+// Search for current values of fields and buttons
+const currentName = document.querySelector(".title__name");
+const currentJob = document.querySelector(".title__description");
+
+const profilePopup = document.querySelector("#edit_profile");
+const profileNameInput = profilePopup.querySelector(".popup__input-name");
+const profileJobInput = profilePopup.querySelector(".popup__input-job");
+const profileForm = profilePopup.querySelector("#profile_form");
+
+const addCardPopup = document.querySelector("#add_place");
+const cardNameInput = addCardPopup.querySelector(".popup__place-name");
+const cardLinkInput = addCardPopup.querySelector(".popup__place-link");
+const addCardForm = addCardPopup.querySelector("#add_place_form");
+const cardsContainer = document.querySelector(".places__grid");
+
+const imagePopup = document.querySelector("#image_popup");
+const imageLink = imagePopup.querySelector(".popup__image");
+const imageCaption = imagePopup.querySelector(".popup__image-caption");
+
+const profileEditButton = document.querySelector(".title__name-edit");
+const addCardButton = document.querySelector(".title__button");
+const closeButtons = document.querySelectorAll(".popup__close-button");
+
+const openPopup = (p) => {
+  if (p.id === "edit_profile") {
+    profileNameInput.value = currentName.textContent;
+    profileJobInput.value = currentJob.textContent;
+  }
+  p.classList.add("popup_opened");
+};
+
+const closePopup = (p) => p.closest(".popup").classList.remove("popup_opened");
 
 // Cards mapping
-const createCard = (c) => {
+const createCard = (card) => {
   const cardsTemplate = document.querySelector("#card-template").content;
   const cardElement = cardsTemplate.querySelector(".place").cloneNode(true);
   const like = cardElement.querySelector(".place__like");
   const image = cardElement.querySelector(".place__image");
   const trash = cardElement.querySelector(".place__trash");
 
-  image.src = c.link;
-  image.alt = c.name;
-  cardElement.querySelector(".place__name").textContent = c.name;
+  image.src = card.link;
+  image.alt = card.name;
+  cardElement.querySelector(".place__name").textContent = card.name;
 
-  like.addEventListener("click", (evt) =>
-    evt.target.classList.toggle("place__like_active")
-  );
-
-  trash.addEventListener("click", (evt) =>
-    evt.target.closest(".place").remove()
-  );
-
+  like.addEventListener("click", (evt) => evt.target.classList.toggle("place__like_active"));
+  trash.addEventListener("click", (evt) => evt.target.closest(".place").remove());
   image.addEventListener("click", () => {
-    openPopup(cardElement.id + "_popup");
+    imageLink.src = card.link;
+    imageCaption.textContent = card.name;
+    openPopup(imagePopup);
   });
 
   return cardElement;
 };
 
-const cardsRender = () => {
-  const grid = document.querySelector(".places__grid");
-  grid.replaceChildren();
+const addCardToContainer = (card, container) => container.prepend(card);
 
-  initialCards.reverse().map((c) => {
-    const card = createCard(c);
-    card.id = "card" + initialCards.indexOf(c);
-    createImgPopup({
-      name: c.name,
-      link: c.link,
-      id: card.id,
-    });
-    grid.prepend(card);
-  });
+initialCards.reverse().forEach((card) => {
+  const newCard = createCard(card);
+  addCardToContainer(newCard, cardsContainer);
+});
+
+const submitProfileHandler = (evt) => {
+  evt.preventDefault();
+  currentName.textContent = profileNameInput.value;
+  currentJob.textContent = profileJobInput.value;
+  closePopup(profilePopup);
 };
 
-cardsRender();
-
-// Search for current values of fields and buttons
-const currentName = document.querySelector(".title__name");
-const currentDescription = document.querySelector(".title__description");
-const profileEditButton = document.querySelector(".title__name-edit");
-const addCardButton = document.querySelector(".title__button");
-
-// Popups mapping
-const popups = [
-  {
-    name: "edit_profile",
-    title: "Редактировать профиль",
-    input1Value: currentName.textContent,
-    input2Value: currentDescription.textContent,
-    input1Placeholder: "",
-    input2Placeholder: "",
-  },
-  {
-    name: "add_place",
-    title: "Добавить место",
-    input1Value: "",
-    input2Value: "",
-    input1Placeholder: "Название",
-    input2Placeholder: "Ссылка на картинку",
-  },
-];
-
-const createPopup = (p) => {
-  const popupTemplate = document.querySelector("#popup-template").content;
-  const popupElement = popupTemplate.querySelector(".popup").cloneNode(true);
-  popupElement.querySelector(".popup__title").textContent = p.title;
-  popupElement.querySelector(".popup__form").name = p.name;
-  popupElement.querySelector(".popup__first-input").value = p.input1Value;
-  popupElement.querySelector(".popup__first-input").placeholder =
-    p.input1Placeholder;
-  popupElement.querySelector(".popup__second-input").value = p.input2Value;
-  popupElement.querySelector(".popup__second-input").placeholder =
-    p.input2Placeholder;
-  popupElement.id = p.name;
-
-  const closeButton = popupElement.querySelector(".popup__close-button");
-  closeButton.addEventListener("click", closePopup);
-
-  const form = popupElement.querySelector(".popup__form");
-  form.addEventListener("submit", submitHandler);
-
-  document.querySelector(".popups").append(popupElement);
-};
-
-function createImgPopup(card) {
-  const popupTemplate = document.querySelector("#image-popup-template").content;
-  const popupElement = popupTemplate.querySelector(".popup").cloneNode(true);
-  const closeButton = popupElement.querySelector(".popup__close-button");
-  const img = popupElement.querySelector(".popup__image");
-
-  img.src = card.link;
-  img.alt = card.name;
-  popupElement.id = card.id + "_popup";
-  popupElement.querySelector(".popup__image-caption").textContent = card.name;
-
-  closeButton.addEventListener("click", closePopup);
-
-  document.querySelector(".popups").append(popupElement);
-}
-
-popups.map((p) => createPopup(p));
-
-function openPopup(popupName) {
-  const popup = document.querySelector("#" + popupName);
-  popup.classList.add("popup_opened");
-}
-
-function closePopup(evt) {
-  const popup = evt.target.closest(".popup");
-  popup.classList.remove("popup_opened");
-}
-
-const editProfile = (evt) => {
-  const firstInput = evt.target.querySelector(".popup__first-input");
-  const secondInput = evt.target.querySelector(".popup__second-input");
-  currentName.textContent = firstInput.value;
-  currentDescription.textContent = secondInput.value;
-  closePopup(evt);
-};
-
-const addPlace = (evt) => {
-  const firstInput = evt.target.querySelector(".popup__first-input");
-  const secondInput = evt.target.querySelector(".popup__second-input");
+const submitCardHandler = (evt) => {
+  evt.preventDefault();
 
   const card = {
-    name: firstInput.value,
-    link: secondInput.value,
+    name: cardNameInput.value,
+    link: cardLinkInput.value,
   };
-  initialCards.unshift(card);
-  cardsRender();
 
-  firstInput.value = "";
-  secondInput.value = "";
+  cardsContainer.prepend(createCard(card));
 
-  closePopup(evt);
+  cardNameInput.value = "";
+  cardLinkInput.value = "";
+
+  closePopup(addCardPopup);
 };
 
-function submitHandler(evt) {
-  evt.preventDefault();
-  if (evt.target.name === "edit_profile") {
-    editProfile(evt);
-  }
-  if (evt.target.name === "add_place") {
-    addPlace(evt);
-  }
-}
-
-profileEditButton.addEventListener("click", () => openPopup("edit_profile"));
-addCardButton.addEventListener("click", () => openPopup("add_place"));
+profileEditButton.addEventListener("click", () => openPopup(profilePopup));
+profileForm.addEventListener("submit", submitProfileHandler);
+addCardButton.addEventListener("click", () => openPopup(addCardPopup));
+addCardForm.addEventListener("submit", submitCardHandler);
+closeButtons.forEach((button) => button.addEventListener("click", () => closePopup(button)));

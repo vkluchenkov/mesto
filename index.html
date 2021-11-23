@@ -10,19 +10,11 @@
 
   <body class="root">
     <header class="header">
-      <img
-        src="./images/mesto_logo.svg"
-        alt="Место Россия"
-        class="header__logo"
-      />
+      <img src="./images/mesto_logo.svg" alt="Место Россия" class="header__logo" />
     </header>
     <main class="content">
       <section class="title">
-        <img
-          src="./images/Avatar.png"
-          alt="Изображение профиля"
-          class="title__image"
-        />
+        <img src="./images/Avatar.png" alt="Изображение профиля" class="title__image" />
         <div class="title__titles">
           <div class="title__name-wrapper">
             <h1 class="title__name">Жак-Ив Кусто</h1>
@@ -42,33 +34,37 @@
       <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
     </footer>
 
-    <div class="popups"></div>
-
-    <template id="popup-template">
-      <div class="popup popup_form">
-        <div class="popup__container">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <form name="profile-edit" class="popup__form">
-            <input type="text" class="popup__input popup__first-input" />
-            <input type="text" class="popup__input popup__second-input" />
-            <button class="popup__submit-button" type="submit">
-              Сохранить
-            </button>
-          </form>
-          <button class="popup__close-button" type="button"></button>
-        </div>
+    <div class="popup popup_form" id="edit_profile">
+      <div class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form id="profile_form" class="popup__form">
+          <input type="text" class="popup__input popup__input-name" placeholder="Имя" />
+          <input type="text" class="popup__input popup__input-job" placeholder="Профессия" />
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close-button" type="button" id="submit-profile"></button>
       </div>
-    </template>
+    </div>
 
-    <template id="image-popup-template">
-      <div class="popup popup_image">
-        <figure class="popup__image-container">
-          <img class="popup__image" />
-          <figcaption class="popup__image-caption"></figcaption>
-          <button class="popup__close-button" type="button"></button>
-        </figure>
+    <div class="popup popup_form" id="add_place">
+      <div class="popup__container">
+        <h2 class="popup__title">Добавить место</h2>
+        <form id="add_place_form" class="popup__form">
+          <input type="text" class="popup__input popup__place-name" placeholder="Название" />
+          <input type="text" class="popup__input popup__place-link" placeholder="Ссылка на картинку" />
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close-button" type="button" id="submit-place"></button>
       </div>
-    </template>
+    </div>
+
+    <div class="popup popup_image" id="image_popup">
+      <figure class="popup__image-container">
+        <img class="popup__image" src="#" />
+        <figcaption class="popup__image-caption"></figcaption>
+        <button class="popup__close-button" type="button"></button>
+      </figure>
+    </div>
 
     <template id="card-template">
       <li class="place">
@@ -81,6 +77,6 @@
       </li>
     </template>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js" type="module"></script>
   </body>
 </html>

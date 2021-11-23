@@ -8,8 +8,6 @@
 
 @media screen and (min-width: 768px) {
   .title__name-wrapper {
-    display: grid;
-    grid-template-columns: min-content 24px;
     gap: 20px;
     justify-content: start;
     transform: none;

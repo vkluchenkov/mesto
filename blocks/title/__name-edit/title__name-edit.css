@@ -7,12 +7,13 @@
   cursor: pointer;
   width: 18px;
   height: 18px;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   opacity: 1;
+  flex-shrink: 0;
 }
 
 .title__name-edit:hover {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 @media screen and (min-width: 768px) {
