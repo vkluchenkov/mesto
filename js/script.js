@@ -23,13 +23,7 @@ const profileEditButton = document.querySelector(".title__name-edit");
 const addCardButton = document.querySelector(".title__button");
 const closeButtons = document.querySelectorAll(".popup__close-button");
 
-const openPopup = (p) => {
-  if (p.id === "edit_profile") {
-    profileNameInput.value = currentName.textContent;
-    profileJobInput.value = currentJob.textContent;
-  }
-  p.classList.add("popup_opened");
-};
+const openPopup = (p) => p.classList.add("popup_opened");
 
 const closePopup = (p) => p.closest(".popup").classList.remove("popup_opened");
 
@@ -86,7 +80,12 @@ const submitCardHandler = (evt) => {
   closePopup(addCardPopup);
 };
 
-profileEditButton.addEventListener("click", () => openPopup(profilePopup));
+profileEditButton.addEventListener("click", () => {
+  profileNameInput.value = currentName.textContent;
+  profileJobInput.value = currentJob.textContent;
+  openPopup(profilePopup);
+});
+
 profileForm.addEventListener("submit", submitProfileHandler);
 addCardButton.addEventListener("click", () => openPopup(addCardPopup));
 addCardForm.addEventListener("submit", submitCardHandler);
