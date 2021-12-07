@@ -1,11 +1,10 @@
-// ok
 const showInputError = (formElement, inputElement, errorMessage, inputErrorClass, errorClass) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(inputErrorClass);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(errorClass);
 };
-// ok
+
 const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove(inputErrorClass);
@@ -50,7 +49,6 @@ const enableValidation = ({ ...options }) => {
   });
 };
 
-// ok
 const checkInputValidity = (formElement, inputElement, inputErrorClass, errorClass) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, inputErrorClass, errorClass);
@@ -59,7 +57,6 @@ const checkInputValidity = (formElement, inputElement, inputErrorClass, errorCla
   }
 };
 
-// ok
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
@@ -75,10 +72,10 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
 };
 
 enableValidation({
-  formSelector: ".popup__form", //ok
-  inputSelector: ".popup__input", //ok
-  submitButtonSelector: ".popup__submit-button", //ok
-  inactiveButtonClass: "popup__submit-button_disabled", //ok
-  inputErrorClass: "popup__input_type_error", //ok
-  errorClass: "popup__error_type_visible", //ok
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__submit-button",
+  inactiveButtonClass: "popup__submit-button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_type_visible",
 });

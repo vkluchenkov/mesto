@@ -23,6 +23,8 @@ const profileEditButton = document.querySelector(".title__name-edit");
 const addCardButton = document.querySelector(".title__button");
 const closeButtons = document.querySelectorAll(".popup__close-button");
 
+const popups = Array.from(document.querySelectorAll(".popup"));
+
 const openPopup = (p) => p.classList.add("popup_opened");
 const closePopup = (p) => p.closest(".popup").classList.remove("popup_opened");
 
@@ -89,3 +91,16 @@ profileForm.addEventListener("submit", submitProfileHandler);
 addCardButton.addEventListener("click", () => openPopup(addCardPopup));
 addCardForm.addEventListener("submit", submitCardHandler);
 closeButtons.forEach((button) => button.addEventListener("click", () => closePopup(button)));
+
+popups.forEach((popup) => {
+  popup.addEventListener("keydown", (evt) => {
+    if (evt.key === "Escape") {
+      closePopup(evt.target);
+    }
+  });
+  popup.addEventListener("click", (evt) => {
+    if (evt.target === popup) {
+      closePopup(evt.target);
+    }
+  });
+});
