@@ -5,13 +5,13 @@ const currentName = document.querySelector(".title__name");
 const currentJob = document.querySelector(".title__description");
 
 const profilePopup = document.querySelector("#edit_profile");
-const profileNameInput = profilePopup.querySelector(".popup__input-name");
-const profileJobInput = profilePopup.querySelector(".popup__input-job");
+const profileNameInput = profilePopup.querySelector("#input-name");
+const profileJobInput = profilePopup.querySelector("#input-job");
 const profileForm = profilePopup.querySelector("#profile_form");
 
 const addCardPopup = document.querySelector("#add_place");
-const cardNameInput = addCardPopup.querySelector(".popup__place-name");
-const cardLinkInput = addCardPopup.querySelector(".popup__place-link");
+const cardNameInput = addCardPopup.querySelector("#place-name");
+const cardLinkInput = addCardPopup.querySelector("#place-link");
 const addCardForm = addCardPopup.querySelector("#add_place_form");
 const cardsContainer = document.querySelector(".places__grid");
 
@@ -24,7 +24,6 @@ const addCardButton = document.querySelector(".title__button");
 const closeButtons = document.querySelectorAll(".popup__close-button");
 
 const openPopup = (p) => p.classList.add("popup_opened");
-
 const closePopup = (p) => p.closest(".popup").classList.remove("popup_opened");
 
 // Cards mapping
@@ -57,6 +56,7 @@ initialCards.reverse().forEach((card) => {
   addCardToContainer(newCard, cardsContainer);
 });
 
+// Submit handlers
 const submitProfileHandler = (evt) => {
   evt.preventDefault();
   currentName.textContent = profileNameInput.value;
@@ -73,13 +73,12 @@ const submitCardHandler = (evt) => {
   };
 
   cardsContainer.prepend(createCard(card));
-
-  cardNameInput.value = "";
-  cardLinkInput.value = "";
+  evt.target.reset();
 
   closePopup(addCardPopup);
 };
 
+// Event listeners
 profileEditButton.addEventListener("click", () => {
   profileNameInput.value = currentName.textContent;
   profileJobInput.value = currentJob.textContent;
