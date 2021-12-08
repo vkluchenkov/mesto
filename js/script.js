@@ -57,6 +57,7 @@ const createCard = (card) => {
   trash.addEventListener("click", (evt) => evt.target.closest(".place").remove());
   image.addEventListener("click", () => {
     imageLink.src = card.link;
+    imageLinkk.alt = card.name;
     imageCaption.textContent = card.name;
     openPopup(imagePopup);
   });
