@@ -1,4 +1,5 @@
-import { imageLink, imageCaption, imagePopup, openPopup } from "./data.js";
+import { imageLink, imageCaption, imagePopup } from "./constants.js";
+import { openPopup } from "./utils.js";
 export class Card {
   constructor(card, cardTemplateSelector) {
     this._link = card.link;
