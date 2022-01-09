@@ -1,9 +1,8 @@
 export class Card {
-  constructor({ card, cardTemplateSelector, openHandler, closeHandler }) {
+  constructor({ card, cardTemplateSelector, openHandler }) {
     this._link = card.link;
     this._name = card.name;
     this._openHandler = openHandler;
-    this._closeHandler = closeHandler;
 
     this._cardsTemplate = document.querySelector(cardTemplateSelector).content;
     this._cardElement = this._cardsTemplate.querySelector(".place").cloneNode(true);

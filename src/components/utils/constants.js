@@ -1,4 +1,31 @@
-import { FormValidator } from "./FormValidator.js";
+import { FormValidator } from "../FormValidator.js";
+
+const initialCards = [
+  {
+    name: "Архыз",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  },
+  {
+    name: "Челябинская область",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+  },
+  {
+    name: "Иваново",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+  },
+  {
+    name: "Камчатка",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+  },
+  {
+    name: "Холмогорский район",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+  },
+  {
+    name: "Байкал",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
+];
 
 const imagePopup = "#image_popup";
 
@@ -14,7 +41,6 @@ const profileForm = profilePopupElem.querySelector("#profile_form");
 const addCardPopup = "#add_place";
 const addCardPopupElem = document.querySelector("#add_place");
 const addCardForm = addCardPopupElem.querySelector("#add_place_form");
-const addCardSubmitButton = addCardForm.querySelector(".popup__submit-button");
 
 const cardsContainer = ".places__grid";
 const cardsTemplate = "#card-template";
@@ -40,11 +66,11 @@ export {
   profileNameInput,
   profileJobInput,
   addCardPopup,
-  addCardSubmitButton,
   cardsContainer,
   profileEditButton,
   addCardButton,
   cardsTemplate,
   profileFormValidator,
   cardFormValidator,
+  initialCards,
 };
