@@ -1,7 +1,7 @@
 import { initialCards } from "./cards.js";
 import { Card } from "./Card.js";
+import { Section } from "./Section.js";
 import { FormValidator } from "./FormValidator.js";
-import { openPopup, closePopup } from "./utils.js";
 import {
   currentName,
   currentJob,
@@ -10,14 +10,15 @@ import {
   profileJobInput,
   profileForm,
   addCardPopup,
-  cardNameInput,
-  cardLinkInput,
   addCardForm,
   cardsContainer,
   profileEditButton,
   addCardButton,
-  popups,
+  imagePopup,
 } from "./constants.js";
+import { PopupWithImage } from "./PopupWithImage.js";
+import { PopupWithForm } from "./PopupWithForm.js";
+import { UserInfo } from "./UserInfo.js";
 
 const validatorOptions = {
   inputSelector: ".popup__input",
@@ -29,67 +30,80 @@ const validatorOptions = {
 const profileFormValidator = new FormValidator(validatorOptions, profileForm);
 const cardFormValidator = new FormValidator(validatorOptions, addCardForm);
 
-// Cards mapping
-const addCardToContainer = (card, container) => container.prepend(card);
+// Single card creation
+const createNewCard = (card) => {
+  const popupWithImage = new PopupWithImage(imagePopup, card);
 
-initialCards.reverse().forEach((card) => {
-  const newCard = new Card(card, "#card-template");
+  const newCard = new Card({
+    card: card,
+    cardTemplateSelector: "#card-template",
+    openHandler: () => popupWithImage.open(),
+    closeHandler: () => popupWithImage.close(),
+  });
+
   const newCardElement = newCard.createCard();
-  addCardToContainer(newCardElement, cardsContainer);
-});
+  return newCardElement;
+};
+
+// Cards mapping
+const initialCardsRender = new Section(
+  {
+    items: initialCards.reverse(),
+    renderer: createNewCard,
+  },
+  cardsContainer
+);
+
+initialCardsRender.renderItems();
 
 // Submit handlers
-const submitProfileHandler = (evt) => {
-  evt.preventDefault();
-  currentName.textContent = profileNameInput.value;
-  currentJob.textContent = profileJobInput.value;
-  closePopup(profilePopup);
+const submitProfileHandler = (values) => {
+  const userInfo = new UserInfo({ currentName, currentJob });
+  userInfo.setUserInfo(values);
 };
 
-const submitCardHandler = (evt) => {
-  evt.preventDefault();
+const submitCardHandler = ({ placeName, placeLink }) => {
   const submitButton = addCardForm.querySelector(".popup__submit-button");
-  const card = new Card(
+  const card = {
+    name: placeName,
+    link: placeLink,
+  };
+
+  const addCardToContainer = new Section(
     {
-      name: cardNameInput.value,
-      link: cardLinkInput.value,
+      items: [card],
+      renderer: createNewCard,
     },
-    "#card-template"
+    cardsContainer
   );
-  const cardElement = card.createCard();
 
-  addCardToContainer(cardElement, cardsContainer);
+  addCardToContainer.renderItems();
 
-  evt.target.reset();
   submitButton.classList.add("popup__submit-button_disabled");
   submitButton.setAttribute("disabled", "");
-
-  closePopup(addCardPopup);
 };
+
+// Event listeners
+profileEditButton.addEventListener("click", () => {
+  const ProfilePopup = new PopupWithForm(profilePopup, submitProfileHandler);
+  const userInfo = new UserInfo({
+    currentName,
+    currentJob,
+  });
+  const currentUser = userInfo.getUserInfo();
+
+  profileNameInput.value = currentUser.name;
+  profileJobInput.value = currentUser.job;
+  profileFormValidator.resetValidation();
+
+  ProfilePopup.open();
+});
+
+addCardButton.addEventListener("click", () => {
+  const newCardPopup = new PopupWithForm(addCardPopup, submitCardHandler);
+  newCardPopup.open();
+});
 
 // Forms validation
 profileFormValidator.enableValidation();
 cardFormValidator.enableValidation();
-
-// Event listeners
-profileEditButton.addEventListener("click", () => {
-  profileNameInput.value = currentName.textContent;
-  profileJobInput.value = currentJob.textContent;
-  profileFormValidator.resetValidation();
-  openPopup(profilePopup);
-});
-
-profileForm.addEventListener("submit", submitProfileHandler);
-addCardButton.addEventListener("click", () => openPopup(addCardPopup));
-addCardForm.addEventListener("submit", submitCardHandler);
-
-popups.forEach((popup) => {
-  popup.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("popup_opened")) {
-      closePopup(popup);
-    }
-    if (evt.target.classList.contains("popup__close-button")) {
-      closePopup(popup);
-    }
-  });
-});
