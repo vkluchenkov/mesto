@@ -9,10 +9,11 @@
 - HTML
 - CSS
 - JS
+- Webpack
 
 ## Демо
 
-[Страница на GH Pages](https://vkluchenkov.github.io/mesto/)
+[Страница на GH Pages](https://vkluchenkov.github.io/mesto/) – временно недоступна по условиям задачи.
 
 ## Планы по доработке
 
