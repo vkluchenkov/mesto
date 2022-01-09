@@ -1,6 +1,7 @@
 import { initialCards } from "./cards.js";
 import { Card } from "./Card.js";
 import { Section } from "./Section.js";
+import "../pages/index.css";
 
 import {
   currentName,
