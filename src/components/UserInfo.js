@@ -1,18 +1,19 @@
 export class UserInfo {
-  constructor({ currentName, currentAbout }) {
-    this._userName = currentName;
+  constructor({ currentName, currentAbout, userId }) {
+    this._currentName = currentName;
     this._currentAbout = currentAbout;
+    this.userId = userId;
   }
 
   getUserInfo() {
     return {
-      name: this._userName.textContent,
-      job: this._currentAbout.textContent,
+      name: this._currentName.textContent,
+      about: this._currentAbout.textContent,
     };
   }
 
-  setUserInfo({ inputName, inputAbout }) {
-    this._userName.textContent = inputName;
-    this._currentAbout.textContent = inputAbout;
+  setUserInfo({ newName, newAbout }) {
+    this._currentName.textContent = newName;
+    this._currentAbout.textContent = newAbout;
   }
 }

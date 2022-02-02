@@ -1,5 +1,5 @@
 export class Card {
-  constructor({ card, cardTemplateSelector, openHandler, userId, killer }) {
+  constructor({ card, cardTemplateSelector, openHandler, userId, deleteHandler }) {
     this._link = card.link;
     this._name = card.name;
     this._likes = card.likes; // not used yet
@@ -8,7 +8,7 @@ export class Card {
     this._ownerId = card.owner._id;
 
     this._openHandler = openHandler;
-    this._killer = killer;
+    this._deleteHandler = deleteHandler;
 
     this._template = document.querySelector(cardTemplateSelector).content;
     this._cardElement = this._template.querySelector(".place").cloneNode(true);
@@ -25,7 +25,7 @@ export class Card {
   _addEventListeners() {
     this._like.addEventListener("click", () => this._like.classList.toggle("place__like_active"));
     this._image.addEventListener("click", () => this._openHandler());
-    this._trash.addEventListener("click", () => this._killer().then(() => this._cardElement.remove()));
+    this._trash.addEventListener("click", () => this._deleteHandler().then(() => this._cardElement.remove()));
   }
 
   createCard() {

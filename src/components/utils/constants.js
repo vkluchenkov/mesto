@@ -1,4 +1,13 @@
+import { Api } from "../Api.js";
 import { FormValidator } from "../FormValidator.js";
+
+const api = new Api({
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-35",
+  headers: {
+    authorization: "1ce0766d-1d99-41e8-b2c1-6a564053af66",
+    "Content-Type": "application/json",
+  },
+});
 
 const imagePopupSelector = "#image_popup";
 
@@ -45,4 +54,5 @@ export {
   cardsTemplate,
   profileFormValidator,
   cardFormValidator,
+  api,
 };

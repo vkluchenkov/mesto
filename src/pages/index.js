@@ -18,35 +18,25 @@ import {
   cardsTemplate,
   profileFormValidator,
   cardFormValidator,
+  api,
 } from "../components/utils/constants.js";
-import { Api } from "../components/Api.js";
-
-const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-35",
-  headers: {
-    authorization: "1ce0766d-1d99-41e8-b2c1-6a564053af66",
-    "Content-Type": "application/json",
-  },
-});
 
 // Globals container
 const globals = {};
 
 // Submit handlers
-const submitProfileHandler = ({ inputName, inputAbout }) => {
+const submitProfileHandler = ({ newName, newAbout }) =>
   api
-    .patchMe({ name: inputName, about: inputAbout })
-    .then((user) => globals.userInfo.setUserInfo({ inputName: user.name, inputAbout: user.about }))
+    .patchMe({ name: newName, about: newAbout })
+    .then(() => globals.userInfo.setUserInfo({ newName, newAbout }))
     .catch((err) => console.log(err));
-};
 
-const submitCardHandler = ({ placeName, placeLink }) => {
-  return api
+const submitCardHandler = ({ placeName, placeLink }) =>
+  api
     .postCard({ name: placeName, link: placeLink })
     .then((card) => createNewCard(card))
     .then((newCard) => globals.section.addItem(newCard))
     .catch((err) => console.log(err));
-};
 
 // Classes initialization
 const popupWithImage = new PopupWithImage(imagePopupSelector);
@@ -54,26 +44,20 @@ const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandle
 const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
 
 // Callbacks
-const cardKiller = (cardId) => {
-  return api
+const deleteCardHandler = (cardId) =>
+  api
     .deleteCard(cardId)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
-};
 
-const createNewCard = (card) => {
-  const newCard = new Card({
-    card: card,
+const createNewCard = (card) =>
+  new Card({
+    card,
     cardTemplateSelector: cardsTemplate,
-    userId: globals.userInfo._id,
+    userId: globals.userInfo.userId,
     openHandler: () => popupWithImage.open(card),
-    killer: () => cardKiller(card._id),
-  });
-
-  const newCardElement = newCard.createCard();
-
-  return newCardElement;
-};
+    deleteHandler: () => deleteCardHandler(card._id),
+  }).createCard();
 
 // Initial cards rendering
 const initialCardsRender = () =>
@@ -84,7 +68,7 @@ const initialCardsRender = () =>
         {
           items: cards.reverse(),
           renderer: createNewCard,
-          userId: globals.userInfo._id,
+          userId: globals.userInfo.userId,
         },
         cardsContainer
       );
@@ -96,11 +80,11 @@ const initialCardsRender = () =>
 api
   .getMe()
   .then((user) => {
-    globals.userInfo = new UserInfo({ currentName, currentAbout });
+    globals.userInfo = new UserInfo({ currentName, currentAbout, userId: user._id });
 
     globals.userInfo.setUserInfo({
-      inputName: user.name,
-      inputAbout: user.about,
+      newName: user.name,
+      newAbout: user.about,
     });
 
     initialCardsRender();
@@ -109,8 +93,9 @@ api
 
 // Event listeners
 profileEditButton.addEventListener("click", () => {
-  profileNameInput.value = currentName.textContent;
-  profileAboutInput.value = currentAbout.textContent;
+  const user = globals.userInfo.getUserInfo();
+  profileNameInput.value = user.name;
+  profileAboutInput.value = user.about;
   profileFormValidator.resetValidation();
   profilePopup.open();
 });
