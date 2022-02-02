@@ -22,19 +22,6 @@ import {
 } from "../components/utils/constants.js";
 import { Api } from "../components/Api.js";
 
-// Submit handlers
-const submitProfileHandler = (values) => userInfo.setUserInfo(values);
-
-const submitCardHandler = ({ placeName, placeLink }) => {
-  const card = createNewCard({ name: placeName, link: placeLink });
-  section.addItem(card);
-};
-
-// Classes initialization
-const popupWithImage = new PopupWithImage(imagePopupSelector);
-const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
-const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
-
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-35",
   headers: {
@@ -43,6 +30,20 @@ const api = new Api({
   },
 });
 
+// Submit handlers
+const submitProfileHandler = (values) => userInfo.setUserInfo(values);
+
+// Classes initialization
+const popupWithImage = new PopupWithImage(imagePopupSelector);
+const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
+
+const cardKiller = (cardId) => {
+  return api
+    .deleteCard(cardId)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
+
 // Single card constructor
 const createNewCard = (card, userId) => {
   const newCard = new Card({
@@ -50,19 +51,22 @@ const createNewCard = (card, userId) => {
     cardTemplateSelector: cardsTemplate,
     openHandler: () => popupWithImage.open(card),
     userId,
+    killer: () => cardKiller(card._id),
   });
   const newCardElement = newCard.createCard();
   return newCardElement;
 };
+
+let section = null;
 
 // Initial cards rendering
 const initialCardsRender = (userId) =>
   api
     .getCards()
     .then((cards) => {
-      const section = new Section(
+      section = new Section(
         {
-          items: cards,
+          items: cards.reverse(),
           renderer: createNewCard,
           userId,
         },
@@ -89,6 +93,16 @@ api
     initialCardsRender(user._id);
   })
   .catch((err) => console.log(err));
+
+const submitCardHandler = ({ placeName, placeLink }) => {
+  return api
+    .postCard({ name: placeName, link: placeLink })
+    .then((card) => createNewCard(card, card.owner._id))
+    .then((newCard) => section.addItem(newCard))
+    .catch((err) => console.log(err));
+};
+
+const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
 
 // Event listeners
 addCardButton.addEventListener("click", () => {
