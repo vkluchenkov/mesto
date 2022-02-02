@@ -2,6 +2,7 @@ export class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
+    this._errorHandler = (res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
   }
 
   // Returns array of cards
@@ -17,31 +18,31 @@ export class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(card),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
-  // Returns?
+  // Returns OK msg
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
   // Returns user
   getMe() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
-  // Returns user
+  // Takes name and about. Returns user
   patchMe(me) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(me),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
   // Returns user?
@@ -50,7 +51,7 @@ export class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(avatar),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
   // Returns card
@@ -58,7 +59,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
   // Returns card
@@ -66,6 +67,6 @@ export class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 }

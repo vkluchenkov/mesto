@@ -2,8 +2,8 @@ export class Card {
   constructor({ card, cardTemplateSelector, openHandler, userId, killer }) {
     this._link = card.link;
     this._name = card.name;
-    this._likes = card.likes;
-    this._id = card._id;
+    this._likes = card.likes; // not used yet
+    this._id = card._id; // not used yet
     this._userId = userId;
     this._ownerId = card.owner._id;
 

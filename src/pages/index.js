@@ -1,5 +1,4 @@
 import "./index.css";
-
 import { Card } from "../components/Card.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
@@ -8,10 +7,10 @@ import { UserInfo } from "../components/UserInfo.js";
 import {
   imagePopupSelector,
   currentName,
-  currentJob,
+  currentAbout,
   profilePopupSelector,
   profileNameInput,
-  profileJobInput,
+  profileAboutInput,
   addCardPopupSelector,
   cardsContainer,
   profileEditButton,
@@ -30,13 +29,31 @@ const api = new Api({
   },
 });
 
+// Globals container
+const globals = {};
+
 // Submit handlers
-const submitProfileHandler = (values) => userInfo.setUserInfo(values);
+const submitProfileHandler = ({ inputName, inputAbout }) => {
+  api
+    .patchMe({ name: inputName, about: inputAbout })
+    .then((user) => globals.userInfo.setUserInfo({ inputName: user.name, inputAbout: user.about }))
+    .catch((err) => console.log(err));
+};
+
+const submitCardHandler = ({ placeName, placeLink }) => {
+  return api
+    .postCard({ name: placeName, link: placeLink })
+    .then((card) => createNewCard(card))
+    .then((newCard) => globals.section.addItem(newCard))
+    .catch((err) => console.log(err));
+};
 
 // Classes initialization
 const popupWithImage = new PopupWithImage(imagePopupSelector);
 const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
+const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
 
+// Callbacks
 const cardKiller = (cardId) => {
   return api
     .deleteCard(cardId)
@@ -44,67 +61,60 @@ const cardKiller = (cardId) => {
     .catch((err) => console.log(err));
 };
 
-// Single card constructor
-const createNewCard = (card, userId) => {
+const createNewCard = (card) => {
   const newCard = new Card({
     card: card,
     cardTemplateSelector: cardsTemplate,
+    userId: globals.userInfo._id,
     openHandler: () => popupWithImage.open(card),
-    userId,
     killer: () => cardKiller(card._id),
   });
+
   const newCardElement = newCard.createCard();
+
   return newCardElement;
 };
 
-let section = null;
-
 // Initial cards rendering
-const initialCardsRender = (userId) =>
+const initialCardsRender = () =>
   api
     .getCards()
     .then((cards) => {
-      section = new Section(
+      globals.section = new Section(
         {
           items: cards.reverse(),
           renderer: createNewCard,
-          userId,
+          userId: globals.userInfo._id,
         },
         cardsContainer
       );
-      section.renderItems();
+      globals.section.renderItems();
     })
     .catch((err) => console.log(err));
 
-// Setting user and rendering cards
+// Setting user and rendering initial cards
 api
   .getMe()
   .then((user) => {
-    const userInfo = new UserInfo({ currentName, currentJob }, user);
-    userInfo.setUserInfo({ inputName: user.name, inputJob: user.about });
+    globals.userInfo = new UserInfo({ currentName, currentAbout });
 
-    profileEditButton.addEventListener("click", () => {
-      const currentUser = userInfo.getUserInfo();
-      profileNameInput.value = currentUser.name;
-      profileJobInput.value = currentUser.job;
-      profileFormValidator.resetValidation();
-      profilePopup.open();
+    globals.userInfo.setUserInfo({
+      inputName: user.name,
+      inputAbout: user.about,
     });
-    initialCardsRender(user._id);
+
+    initialCardsRender();
   })
   .catch((err) => console.log(err));
 
-const submitCardHandler = ({ placeName, placeLink }) => {
-  return api
-    .postCard({ name: placeName, link: placeLink })
-    .then((card) => createNewCard(card, card.owner._id))
-    .then((newCard) => section.addItem(newCard))
-    .catch((err) => console.log(err));
-};
-
-const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
-
 // Event listeners
+profileEditButton.addEventListener("click", () => {
+  profileNameInput.value = currentName.textContent;
+  profileAboutInput.value = currentAbout.textContent;
+  profileFormValidator.resetValidation();
+  profilePopup.open();
+});
+
 addCardButton.addEventListener("click", () => {
   cardFormValidator.resetValidation();
   newCardPopup.open();

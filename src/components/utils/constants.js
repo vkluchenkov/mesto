@@ -3,12 +3,12 @@ import { FormValidator } from "../FormValidator.js";
 const imagePopupSelector = "#image_popup";
 
 const currentName = document.querySelector(".title__name");
-const currentJob = document.querySelector(".title__description");
+const currentAbout = document.querySelector(".title__description");
 
 const profilePopupSelector = "#edit_profile";
 const profilePopupElem = document.querySelector("#edit_profile");
 const profileNameInput = profilePopupElem.querySelector("#input-name");
-const profileJobInput = profilePopupElem.querySelector("#input-job");
+const profileAboutInput = profilePopupElem.querySelector("#input-about");
 const profileForm = profilePopupElem.querySelector("#profile_form");
 
 const addCardPopupSelector = "#add_place";
@@ -34,10 +34,10 @@ const cardFormValidator = new FormValidator(validatorOptions, addCardForm);
 export {
   imagePopupSelector,
   currentName,
-  currentJob,
+  currentAbout,
   profilePopupSelector,
   profileNameInput,
-  profileJobInput,
+  profileAboutInput,
   addCardPopupSelector,
   cardsContainer,
   profileEditButton,
