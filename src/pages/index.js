@@ -6,21 +6,21 @@ import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
 import {
-  imagePopup,
+  imagePopupSelector,
   currentName,
   currentJob,
-  profilePopup,
+  profilePopupSelector,
   profileNameInput,
   profileJobInput,
-  addCardPopup,
+  addCardPopupSelector,
   cardsContainer,
   profileEditButton,
   addCardButton,
   cardsTemplate,
   profileFormValidator,
   cardFormValidator,
-  initialCards,
 } from "../components/utils/constants.js";
+import { Api } from "../components/Api.js";
 
 // Submit handlers
 const submitProfileHandler = (values) => userInfo.setUserInfo(values);
@@ -30,44 +30,67 @@ const submitCardHandler = ({ placeName, placeLink }) => {
   section.addItem(card);
 };
 
-const popupWithImage = new PopupWithImage(imagePopup);
-const userInfo = new UserInfo({ currentName, currentJob });
-const ProfilePopup = new PopupWithForm(profilePopup, submitProfileHandler);
-const newCardPopup = new PopupWithForm(addCardPopup, submitCardHandler);
+// Classes initialization
+const popupWithImage = new PopupWithImage(imagePopupSelector);
+const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
+const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
+
+const api = new Api({
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-35",
+  headers: {
+    authorization: "1ce0766d-1d99-41e8-b2c1-6a564053af66",
+    "Content-Type": "application/json",
+  },
+});
 
 // Single card constructor
-const createNewCard = (card) => {
+const createNewCard = (card, userId) => {
   const newCard = new Card({
     card: card,
     cardTemplateSelector: cardsTemplate,
     openHandler: () => popupWithImage.open(card),
+    userId,
   });
   const newCardElement = newCard.createCard();
   return newCardElement;
 };
 
-const section = new Section(
-  {
-    items: initialCards.reverse(),
-    renderer: createNewCard,
-  },
-  cardsContainer
-);
+// Initial cards rendering
+const initialCardsRender = (userId) =>
+  api
+    .getCards()
+    .then((cards) => {
+      const section = new Section(
+        {
+          items: cards,
+          renderer: createNewCard,
+          userId,
+        },
+        cardsContainer
+      );
+      section.renderItems();
+    })
+    .catch((err) => console.log(err));
 
-// Initial cards mapping
-section.renderItems();
+// Setting user and rendering cards
+api
+  .getMe()
+  .then((user) => {
+    const userInfo = new UserInfo({ currentName, currentJob }, user);
+    userInfo.setUserInfo({ inputName: user.name, inputJob: user.about });
+
+    profileEditButton.addEventListener("click", () => {
+      const currentUser = userInfo.getUserInfo();
+      profileNameInput.value = currentUser.name;
+      profileJobInput.value = currentUser.job;
+      profileFormValidator.resetValidation();
+      profilePopup.open();
+    });
+    initialCardsRender(user._id);
+  })
+  .catch((err) => console.log(err));
 
 // Event listeners
-profileEditButton.addEventListener("click", () => {
-  const currentUser = userInfo.getUserInfo();
-
-  profileNameInput.value = currentUser.name;
-  profileJobInput.value = currentUser.job;
-  profileFormValidator.resetValidation();
-
-  ProfilePopup.open();
-});
-
 addCardButton.addEventListener("click", () => {
   cardFormValidator.resetValidation();
   newCardPopup.open();

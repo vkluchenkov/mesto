@@ -1,13 +1,15 @@
 export class UserInfo {
-  constructor({ currentName, currentJob }) {
+  constructor({ currentName, currentJob }, user) {
     this._currentName = currentName;
     this._currentJob = currentJob;
+    this.id = user._id;
   }
 
   getUserInfo() {
     return {
       name: this._currentName.textContent,
       job: this._currentJob.textContent,
+      id: this.id,
     };
   }
 
