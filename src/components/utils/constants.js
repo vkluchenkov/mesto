@@ -25,7 +25,7 @@ const addCardPopupElem = document.querySelector("#add_place");
 const addCardForm = addCardPopupElem.querySelector("#add_place_form");
 
 const cardsContainer = ".places__grid";
-const cardsTemplate = "#card-template";
+const cardTemplateSelector = "#card-template";
 
 const profileEditButton = document.querySelector(".title__name-edit");
 const addCardButton = document.querySelector(".title__button");
@@ -51,7 +51,7 @@ export {
   cardsContainer,
   profileEditButton,
   addCardButton,
-  cardsTemplate,
+  cardTemplateSelector,
   profileFormValidator,
   cardFormValidator,
   api,

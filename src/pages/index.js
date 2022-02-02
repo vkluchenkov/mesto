@@ -15,7 +15,7 @@ import {
   cardsContainer,
   profileEditButton,
   addCardButton,
-  cardsTemplate,
+  cardTemplateSelector,
   profileFormValidator,
   cardFormValidator,
   api,
@@ -53,7 +53,7 @@ const deleteCardHandler = (cardId) =>
 const createNewCard = (card) =>
   new Card({
     card,
-    cardTemplateSelector: cardsTemplate,
+    cardTemplateSelector,
     userId: globals.userInfo.userId,
     openHandler: () => popupWithImage.open(card),
     deleteHandler: () => deleteCardHandler(card._id),
