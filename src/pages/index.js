@@ -32,30 +32,22 @@ import {
 const globals = {};
 
 // Handlers
-const submitProfileHandler = ({ newName, newAbout }) => {
-  api
-    .patchMe({ name: newName, about: newAbout })
-    .then(() => globals.userInfo.setUserInfo({ newName, newAbout }))
-    .catch((err) => console.log(err));
-};
+const submitProfileHandler = ({ newName, newAbout }) =>
+  api.patchMe({ name: newName, about: newAbout }).then(() => globals.userInfo.setUserInfo({ newName, newAbout }));
 
 const submitCardHandler = ({ placeName, placeLink }) =>
   api
     .postCard({ name: placeName, link: placeLink })
     .then((card) => createNewCard(card))
-    .then((newCard) => globals.section.addItem(newCard))
-    .catch((err) => console.log(err));
+    .then((newCard) => globals.section.addItem(newCard));
 
 const modalHandler = () => {
   const cardElement = document.querySelector(`#card${globals.cardId}`);
-  return api
-    .deleteCard(globals.cardId)
-    .then((res) => {
-      console.log(res);
-      cardElement.remove();
-      popupModal.close();
-    })
-    .catch((err) => console.log(err));
+  return api.deleteCard(globals.cardId).then((res) => {
+    console.log(res);
+    cardElement.remove();
+    popupModal.close();
+  });
 };
 
 const deleteCardHandler = (cardId) => {
@@ -64,10 +56,13 @@ const deleteCardHandler = (cardId) => {
 };
 
 const submitAvatarHandler = ({ avatarLink }) =>
-  api
-    .patchAvatar(avatarLink)
-    .then((user) => (avatar.src = user.avatar))
-    .catch((err) => console.log(err));
+  api.patchAvatar(avatarLink).then((user) =>
+    globals.userInfo.setUserInfo({
+      newName: user.name,
+      newAbout: user.about,
+      newAvatar: user.avatar,
+    })
+  );
 
 const putLikeHandler = (cardId) => api.putLike(cardId).catch((err) => console.log(err));
 const deleteLikeHandler = (cardId) => api.deleteLike(cardId).catch((err) => console.log(err));
@@ -112,13 +107,13 @@ const initialCardsRender = () =>
 api
   .getMe()
   .then((user) => {
-    globals.userInfo = new UserInfo({ currentName, currentAbout, userId: user._id });
+    globals.userInfo = new UserInfo({ currentName, currentAbout, avatar, userId: user._id });
 
     globals.userInfo.setUserInfo({
       newName: user.name,
       newAbout: user.about,
+      newAvatar: user.avatar,
     });
-    avatar.src = user.avatar;
     initialCardsRender();
   })
   .catch((err) => console.log(err));
