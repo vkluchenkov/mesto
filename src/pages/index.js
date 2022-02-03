@@ -19,10 +19,13 @@ import {
   cardTemplateSelector,
   profileFormValidator,
   cardFormValidator,
+  avatarFormValidator,
   api,
   modalSelector,
   modalButton,
   avatar,
+  avatarOverlay,
+  avatarPopupSelector,
 } from "../components/utils/constants.js";
 
 // Globals container
@@ -60,6 +63,12 @@ const deleteCardHandler = (cardId) => {
   popupModal.open();
 };
 
+const submitAvatarHandler = ({ avatarLink }) =>
+  api
+    .patchAvatar(avatarLink)
+    .then((user) => (avatar.src = user.avatar))
+    .catch((err) => console.log(err));
+
 const putLikeHandler = (cardId) => api.putLike(cardId).catch((err) => console.log(err));
 const deleteLikeHandler = (cardId) => api.deleteLike(cardId).catch((err) => console.log(err));
 
@@ -67,6 +76,7 @@ const deleteLikeHandler = (cardId) => api.deleteLike(cardId).catch((err) => cons
 const popupWithImage = new PopupWithImage(imagePopupSelector);
 const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
 const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
+const avatarPopup = new PopupWithForm(avatarPopupSelector, submitAvatarHandler);
 const popupModal = new PopupModal(modalSelector, modalButton, modalHandler);
 
 // Callbacks
@@ -127,6 +137,12 @@ addCardButton.addEventListener("click", () => {
   newCardPopup.open();
 });
 
+avatarOverlay.addEventListener("click", () => {
+  avatarFormValidator.resetValidation();
+  avatarPopup.open();
+});
+
 // Forms validation
 profileFormValidator.enableValidation();
 cardFormValidator.enableValidation();
+avatarFormValidator.enableValidation();

@@ -45,12 +45,12 @@ export class Api {
     }).then((res) => this._resHandler(res));
   }
 
-  // Returns user?
-  patchAvatar(avatar) {
+  // Returns user
+  patchAvatar(avatarLink) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(avatar),
+      body: JSON.stringify({ avatar: avatarLink }),
     }).then((res) => this._resHandler(res));
   }
 

@@ -10,6 +10,9 @@ const api = new Api({
 });
 
 const avatar = document.querySelector(".title__image");
+const avatarOverlay = document.querySelector(".title__image-overlay");
+const avatarPopupSelector = "#new_avatar";
+const avatarForm = document.querySelector("#new_avatar_form");
 
 const imagePopupSelector = "#image_popup";
 
@@ -45,6 +48,7 @@ const validatorOptions = {
 };
 const profileFormValidator = new FormValidator(validatorOptions, profileForm);
 const cardFormValidator = new FormValidator(validatorOptions, addCardForm);
+const avatarFormValidator = new FormValidator(validatorOptions, avatarForm);
 
 export {
   imagePopupSelector,
@@ -59,9 +63,12 @@ export {
   addCardButton,
   cardTemplateSelector,
   profileFormValidator,
+  avatarFormValidator,
   cardFormValidator,
   api,
   modalSelector,
   modalButton,
   avatar,
+  avatarOverlay,
+  avatarPopupSelector,
 };
