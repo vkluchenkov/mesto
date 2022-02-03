@@ -24,6 +24,7 @@
 @import url(../blocks/place/__name/place__name.css);
 @import url(../blocks/place/__like/place__like.css);
 @import url(../blocks/place/__like/_active/place__like_active.css);
+@import url(../blocks/place/__like/_counter/place__like_counter.css);
 @import url(../blocks/place/__trash/__trash.css);
 @import url(../blocks/place/__trash/_hidden/place__trash_hidden.css);
 

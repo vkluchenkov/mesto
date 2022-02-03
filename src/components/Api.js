@@ -9,7 +9,7 @@ export class Api {
   getCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+    }).then((res) => this._errorHandler(res));
   }
 
   //Takes name & link. Returns card

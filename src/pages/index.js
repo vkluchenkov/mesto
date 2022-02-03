@@ -24,7 +24,7 @@ import {
 // Globals container
 const globals = {};
 
-// Submit handlers
+// Handlers
 const submitProfileHandler = ({ newName, newAbout }) =>
   api
     .patchMe({ name: newName, about: newAbout })
@@ -37,6 +37,14 @@ const submitCardHandler = ({ placeName, placeLink }) =>
     .then((card) => createNewCard(card))
     .then((newCard) => globals.section.addItem(newCard))
     .catch((err) => console.log(err));
+
+const putLikeHandler = (cardId) => {
+  return api.putLike(cardId).catch((err) => console.log(err));
+};
+
+const deleteLikeHandler = (cardId) => {
+  return api.deleteLike(cardId).catch((err) => console.log(err));
+};
 
 // Classes initialization
 const popupWithImage = new PopupWithImage(imagePopupSelector);
@@ -57,6 +65,8 @@ const createNewCard = (card) =>
     userId: globals.userInfo.userId,
     openHandler: () => popupWithImage.open(card),
     deleteHandler: () => deleteCardHandler(card._id),
+    putLikeHandler: () => putLikeHandler(card._id),
+    deleteLikeHandler: () => deleteLikeHandler(card._id),
   }).createCard();
 
 // Initial cards rendering
