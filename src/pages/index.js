@@ -22,6 +22,7 @@ import {
   api,
   modalSelector,
   modalButton,
+  avatar,
 } from "../components/utils/constants.js";
 
 // Globals container
@@ -107,7 +108,7 @@ api
       newName: user.name,
       newAbout: user.about,
     });
-
+    avatar.src = user.avatar;
     initialCardsRender();
   })
   .catch((err) => console.log(err));

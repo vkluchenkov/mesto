@@ -9,6 +9,8 @@ const api = new Api({
   },
 });
 
+const avatar = document.querySelector(".title__image");
+
 const imagePopupSelector = "#image_popup";
 
 const currentName = document.querySelector(".title__name");
@@ -61,4 +63,5 @@ export {
   api,
   modalSelector,
   modalButton,
+  avatar,
 };
