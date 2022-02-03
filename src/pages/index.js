@@ -3,7 +3,7 @@ import { Card } from "../components/Card.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
-import { PopupModal } from "../components/PopupModal.js";
+import { PopupWithConfirmation } from "../components/PopupWithConfirmation.js";
 import { UserInfo } from "../components/UserInfo.js";
 import {
   imagePopupSelector,
@@ -77,7 +77,7 @@ const popupWithImage = new PopupWithImage(imagePopupSelector);
 const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
 const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
 const avatarPopup = new PopupWithForm(avatarPopupSelector, submitAvatarHandler);
-const popupModal = new PopupModal(modalSelector, modalButton, modalHandler);
+const popupModal = new PopupWithConfirmation(modalSelector, modalButton, modalHandler);
 
 // Callbacks
 const createNewCard = (card) =>
