@@ -26,7 +26,7 @@ const addCardForm = addCardPopupElem.querySelector("#add_place_form");
 
 const modalSelector = "#modal";
 const modalElement = document.querySelector(modalSelector);
-const modalButton = document.querySelector(".popup__submit-button_modal");
+const modalButton = modalElement.querySelector(".popup__submit-button_modal");
 
 const cardsContainer = ".places__grid";
 const cardTemplateSelector = "#card-template";

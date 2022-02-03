@@ -28,11 +28,12 @@ import {
 const globals = {};
 
 // Handlers
-const submitProfileHandler = ({ newName, newAbout }) =>
+const submitProfileHandler = ({ newName, newAbout }) => {
   api
     .patchMe({ name: newName, about: newAbout })
     .then(() => globals.userInfo.setUserInfo({ newName, newAbout }))
     .catch((err) => console.log(err));
+};
 
 const submitCardHandler = ({ placeName, placeLink }) =>
   api
@@ -43,7 +44,7 @@ const submitCardHandler = ({ placeName, placeLink }) =>
 
 const modalHandler = () => {
   const cardElement = document.querySelector(`#card${globals.cardId}`);
-  api
+  return api
     .deleteCard(globals.cardId)
     .then((res) => {
       console.log(res);
@@ -58,13 +59,8 @@ const deleteCardHandler = (cardId) => {
   popupModal.open();
 };
 
-const putLikeHandler = (cardId) => {
-  return api.putLike(cardId).catch((err) => console.log(err));
-};
-
-const deleteLikeHandler = (cardId) => {
-  return api.deleteLike(cardId).catch((err) => console.log(err));
-};
+const putLikeHandler = (cardId) => api.putLike(cardId).catch((err) => console.log(err));
+const deleteLikeHandler = (cardId) => api.deleteLike(cardId).catch((err) => console.log(err));
 
 // Popups initialization
 const popupWithImage = new PopupWithImage(imagePopupSelector);
