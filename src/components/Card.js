@@ -28,17 +28,14 @@ export class Card {
   }
 
   _likeToggle() {
-    if (this._like.classList.contains("place__like_active")) {
-      this._deleteLikeHandler().then((res) => {
-        this._likes = res.likes;
-        this._likeCounter.textContent = res.likes.length;
-      });
-    } else {
-      this._putLikeHandler().then((res) => {
-        this._likes = res.likes;
-        this._likeCounter.textContent = res.likes.length;
-      });
-    }
+    const action = () =>
+      this._like.classList.contains("place__like_active") ? this._deleteLikeHandler() : this._putLikeHandler();
+
+    action().then((res) => {
+      this._likes = res.likes;
+      this._likeCounter.textContent = this._likes.length;
+    });
+
     this._like.classList.toggle("place__like_active");
   }
 
