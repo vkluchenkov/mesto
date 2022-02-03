@@ -3,7 +3,7 @@ export class Card {
     this._link = card.link;
     this._name = card.name;
     this._likes = card.likes;
-    this._id = card._id; // not used yet
+    this._id = card._id;
     this._userId = userId;
     this._ownerId = card.owner._id;
 
@@ -42,7 +42,7 @@ export class Card {
   _addEventListeners() {
     this._like.addEventListener("click", () => this._likeToggle());
     this._image.addEventListener("click", () => this._openHandler());
-    this._trash.addEventListener("click", () => this._deleteHandler().then(() => this._cardElement.remove()));
+    this._trash.addEventListener("click", () => this._deleteHandler());
   }
 
   createCard() {
@@ -51,6 +51,7 @@ export class Card {
     this._image.alt = this._name;
     this._title.textContent = this._name;
     this._likeCounter.textContent = this._likes.length;
+    this._cardElement.id = "card" + this._id;
 
     this._addEventListeners();
     return this._cardElement;

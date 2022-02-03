@@ -100,7 +100,36 @@
           </div>
           <button class="popup__submit-button" type="submit">Сохранить</button>
         </form>
-        <button class="popup__close-button" type="button" id="submit-place"></button>
+        <button class="popup__close-button" type="button"></button>
+      </div>
+    </div>
+
+    <div class="popup popup_form" id="new_avatar">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form id="new_avatar_form" class="popup__form" novalidate>
+          <div class="popup__field-wrapper">
+            <input
+              class="popup__input"
+              id="avatar-link"
+              name="avatarLink"
+              placeholder="Ссылка на картинку"
+              type="url"
+              required
+            />
+            <p class="popup__error avatar-link-error"></p>
+          </div>
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close-button" type="button"></button>
+      </div>
+    </div>
+
+    <div class="popup popup_form" id="modal">
+      <div class="popup__container">
+        <h2 class="popup__title popup__title_modal">Вы уверены?</h2>
+        <button class="popup__submit-button popup__submit-button_modal" type="button">Да</button>
+        <button class="popup__close-button" type="button"></button>
       </div>
     </div>
 
@@ -113,7 +142,7 @@
     </div>
 
     <template id="card-template">
-      <li class="place">
+      <li class="place" id="">
         <img class="place__image" />
         <div class="place__info">
           <h2 class="place__name"></h2>

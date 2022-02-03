@@ -15,7 +15,7 @@ const currentName = document.querySelector(".title__name");
 const currentAbout = document.querySelector(".title__description");
 
 const profilePopupSelector = "#edit_profile";
-const profilePopupElem = document.querySelector("#edit_profile");
+const profilePopupElem = document.querySelector(profilePopupSelector);
 const profileNameInput = profilePopupElem.querySelector("#input-name");
 const profileAboutInput = profilePopupElem.querySelector("#input-about");
 const profileForm = profilePopupElem.querySelector("#profile_form");
@@ -23,6 +23,10 @@ const profileForm = profilePopupElem.querySelector("#profile_form");
 const addCardPopupSelector = "#add_place";
 const addCardPopupElem = document.querySelector("#add_place");
 const addCardForm = addCardPopupElem.querySelector("#add_place_form");
+
+const modalSelector = "#modal";
+const modalElement = document.querySelector(modalSelector);
+const modalButton = document.querySelector(".popup__submit-button_modal");
 
 const cardsContainer = ".places__grid";
 const cardTemplateSelector = "#card-template";
@@ -55,4 +59,6 @@ export {
   profileFormValidator,
   cardFormValidator,
   api,
+  modalSelector,
+  modalButton,
 };

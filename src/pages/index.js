@@ -3,6 +3,7 @@ import { Card } from "../components/Card.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupModal } from "../components/PopupModal.js";
 import { UserInfo } from "../components/UserInfo.js";
 import {
   imagePopupSelector,
@@ -19,6 +20,8 @@ import {
   profileFormValidator,
   cardFormValidator,
   api,
+  modalSelector,
+  modalButton,
 } from "../components/utils/constants.js";
 
 // Globals container
@@ -38,6 +41,23 @@ const submitCardHandler = ({ placeName, placeLink }) =>
     .then((newCard) => globals.section.addItem(newCard))
     .catch((err) => console.log(err));
 
+const modalHandler = () => {
+  const cardElement = document.querySelector(`#card${globals.cardId}`);
+  api
+    .deleteCard(globals.cardId)
+    .then((res) => {
+      console.log(res);
+      cardElement.remove();
+      popupModal.close();
+    })
+    .catch((err) => console.log(err));
+};
+
+const deleteCardHandler = (cardId) => {
+  globals.cardId = cardId;
+  popupModal.open();
+};
+
 const putLikeHandler = (cardId) => {
   return api.putLike(cardId).catch((err) => console.log(err));
 };
@@ -46,18 +66,13 @@ const deleteLikeHandler = (cardId) => {
   return api.deleteLike(cardId).catch((err) => console.log(err));
 };
 
-// Classes initialization
+// Popups initialization
 const popupWithImage = new PopupWithImage(imagePopupSelector);
 const profilePopup = new PopupWithForm(profilePopupSelector, submitProfileHandler);
 const newCardPopup = new PopupWithForm(addCardPopupSelector, submitCardHandler);
+const popupModal = new PopupModal(modalSelector, modalButton, modalHandler);
 
 // Callbacks
-const deleteCardHandler = (cardId) =>
-  api
-    .deleteCard(cardId)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-
 const createNewCard = (card) =>
   new Card({
     card,
