@@ -1,14 +1,3 @@
-import { Api } from "../Api.js";
-import { FormValidator } from "../FormValidator.js";
-
-const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-35",
-  headers: {
-    authorization: "1ce0766d-1d99-41e8-b2c1-6a564053af66",
-    "Content-Type": "application/json",
-  },
-});
-
 const avatar = document.querySelector(".title__image");
 const avatarOverlay = document.querySelector(".title__image-overlay");
 const avatarPopupSelector = "#new_avatar";
@@ -46,29 +35,26 @@ const validatorOptions = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_type_visible",
 };
-const profileFormValidator = new FormValidator(validatorOptions, profileForm);
-const cardFormValidator = new FormValidator(validatorOptions, addCardForm);
-const avatarFormValidator = new FormValidator(validatorOptions, avatarForm);
 
 export {
   imagePopupSelector,
   currentName,
   currentAbout,
   profilePopupSelector,
+  profileForm,
   profileNameInput,
   profileAboutInput,
   addCardPopupSelector,
+  addCardForm,
   cardsContainer,
   profileEditButton,
   addCardButton,
   cardTemplateSelector,
-  profileFormValidator,
-  avatarFormValidator,
-  cardFormValidator,
-  api,
   modalSelector,
   modalButton,
   avatar,
   avatarOverlay,
   avatarPopupSelector,
+  avatarForm,
+  validatorOptions,
 };

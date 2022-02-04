@@ -5,49 +5,65 @@ import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupWithConfirmation } from "../components/PopupWithConfirmation.js";
 import { UserInfo } from "../components/UserInfo.js";
+import { Api } from "../components/Api.js";
+import { FormValidator } from "../components/FormValidator.js";
 import {
   imagePopupSelector,
   currentName,
   currentAbout,
   profilePopupSelector,
+  profileForm,
   profileNameInput,
   profileAboutInput,
   addCardPopupSelector,
+  addCardForm,
   cardsContainer,
   profileEditButton,
   addCardButton,
   cardTemplateSelector,
-  profileFormValidator,
-  cardFormValidator,
-  avatarFormValidator,
-  api,
   modalSelector,
   modalButton,
   avatar,
   avatarOverlay,
   avatarPopupSelector,
+  avatarForm,
+  validatorOptions,
 } from "../components/utils/constants.js";
+
+const api = new Api({
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-35",
+  headers: {
+    authorization: "1ce0766d-1d99-41e8-b2c1-6a564053af66",
+    "Content-Type": "application/json",
+  },
+});
 
 // Globals container
 const globals = {};
 
 // Handlers
 const submitProfileHandler = ({ newName, newAbout }) =>
-  api.patchMe({ name: newName, about: newAbout }).then(() => globals.userInfo.setUserInfo({ newName, newAbout }));
+  api
+    .patchMe({ name: newName, about: newAbout })
+    .then(() => globals.userInfo.setUserInfo({ newName, newAbout }))
+    .catch((err) => console.log(err));
 
 const submitCardHandler = ({ placeName, placeLink }) =>
   api
     .postCard({ name: placeName, link: placeLink })
     .then((card) => createNewCard(card))
-    .then((newCard) => globals.section.addItem(newCard));
+    .then((newCard) => globals.section.addItem(newCard))
+    .catch((err) => console.log(err));
 
 const modalHandler = () => {
   const cardElement = document.querySelector(`#card${globals.cardId}`);
-  return api.deleteCard(globals.cardId).then((res) => {
-    console.log(res);
-    cardElement.remove();
-    popupModal.close();
-  });
+  return api
+    .deleteCard(globals.cardId)
+    .then((res) => {
+      console.log(res);
+      cardElement.remove();
+    })
+    .catch((err) => console.log(err));
 };
 
 const deleteCardHandler = (cardId) => {
@@ -56,13 +72,10 @@ const deleteCardHandler = (cardId) => {
 };
 
 const submitAvatarHandler = ({ avatarLink }) =>
-  api.patchAvatar(avatarLink).then((user) =>
-    globals.userInfo.setUserInfo({
-      newName: user.name,
-      newAbout: user.about,
-      newAvatar: user.avatar,
-    })
-  );
+  api
+    .patchAvatar(avatarLink)
+    .then((user) => globals.userInfo.setUserInfo({ newAvatar: user.avatar }))
+    .catch((err) => console.log(err));
 
 const putLikeHandler = (cardId) => api.putLike(cardId).catch((err) => console.log(err));
 const deleteLikeHandler = (cardId) => api.deleteLike(cardId).catch((err) => console.log(err));
@@ -86,27 +99,9 @@ const createNewCard = (card) =>
     deleteLikeHandler: () => deleteLikeHandler(card._id),
   }).createCard();
 
-// Initial cards rendering
-const initialCardsRender = () =>
-  api
-    .getCards()
-    .then((cards) => {
-      globals.section = new Section(
-        {
-          items: cards.reverse(),
-          renderer: createNewCard,
-          userId: globals.userInfo.userId,
-        },
-        cardsContainer
-      );
-      globals.section.renderItems();
-    })
-    .catch((err) => console.log(err));
-
 // Setting user and rendering initial cards
-api
-  .getMe()
-  .then((user) => {
+Promise.all([api.getMe(), api.getCards()])
+  .then(([user, cards]) => {
     globals.userInfo = new UserInfo({ currentName, currentAbout, avatar, userId: user._id });
 
     globals.userInfo.setUserInfo({
@@ -114,7 +109,17 @@ api
       newAbout: user.about,
       newAvatar: user.avatar,
     });
-    initialCardsRender();
+
+    globals.section = new Section(
+      {
+        items: cards.reverse(),
+        renderer: createNewCard,
+        userId: globals.userInfo.userId,
+      },
+      cardsContainer
+    );
+
+    globals.section.renderItems();
   })
   .catch((err) => console.log(err));
 
@@ -138,6 +143,11 @@ avatarOverlay.addEventListener("click", () => {
 });
 
 // Forms validation
+
+const profileFormValidator = new FormValidator(validatorOptions, profileForm);
+const cardFormValidator = new FormValidator(validatorOptions, addCardForm);
+const avatarFormValidator = new FormValidator(validatorOptions, avatarForm);
+
 profileFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 avatarFormValidator.enableValidation();

@@ -1,5 +1,13 @@
 export class Card {
-  constructor({ card, cardTemplateSelector, openHandler, userId, deleteHandler, putLikeHandler, deleteLikeHandler }) {
+  constructor({
+    card,
+    cardTemplateSelector,
+    openHandler,
+    userId,
+    deleteHandler,
+    putLikeHandler,
+    deleteLikeHandler,
+  }) {
     this._link = card.link;
     this._name = card.name;
     this._likes = card.likes;
@@ -29,14 +37,15 @@ export class Card {
 
   _likeToggle() {
     const action = () =>
-      this._like.classList.contains("place__like_active") ? this._deleteLikeHandler() : this._putLikeHandler();
+      this._like.classList.contains("place__like_active")
+        ? this._deleteLikeHandler()
+        : this._putLikeHandler();
 
     action().then((res) => {
       this._likes = res.likes;
       this._likeCounter.textContent = this._likes.length;
+      this._like.classList.toggle("place__like_active");
     });
-
-    this._like.classList.toggle("place__like_active");
   }
 
   _addEventListeners() {
