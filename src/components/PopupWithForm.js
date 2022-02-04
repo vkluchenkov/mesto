@@ -20,13 +20,14 @@ export class PopupWithForm extends Popup {
   _submitForm = (evt) => {
     evt.preventDefault();
     this._button.textContent = "Сохранение...";
-    this._submitHandler(this._getInputValues()).finally(() => {
-      this.close();
-      // Даем время попапу для fade out и меняем надпись
-      setTimeout(() => {
-        this._button.textContent = "Сохранить";
-      }, 1000);
-    });
+    this._submitHandler(this._getInputValues())
+      .then(this.close())
+      .finally(() => {
+        // Даем время попапу для fade out и меняем надпись
+        setTimeout(() => {
+          this._button.textContent = "Сохранить";
+        }, 1000);
+      });
   };
 
   _setEventListeners() {

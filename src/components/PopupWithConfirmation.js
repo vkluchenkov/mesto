@@ -9,13 +9,14 @@ export class PopupWithConfirmation extends Popup {
 
   _submitModal = () => {
     this._modalButton.textContent = "Удаление...";
-    this._submitHandler().finally(() => {
-      this.close();
-      // Даем время попапу для fade out и меняем надпись
-      setTimeout(() => {
-        this._modalButton.textContent = "Да";
-      }, 1000);
-    });
+    this._submitHandler()
+      .then(this.close())
+      .finally(() => {
+        // Даем время попапу для fade out и меняем надпись
+        setTimeout(() => {
+          this._modalButton.textContent = "Да";
+        }, 1000);
+      });
   };
 
   _setEventListeners() {

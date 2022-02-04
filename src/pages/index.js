@@ -51,8 +51,7 @@ const submitProfileHandler = ({ newName, newAbout }) =>
 const submitCardHandler = ({ placeName, placeLink }) =>
   api
     .postCard({ name: placeName, link: placeLink })
-    .then((card) => createNewCard(card))
-    .then((newCard) => globals.section.addItem(newCard))
+    .then((card) => globals.section.addItem(card))
     .catch((err) => console.log(err));
 
 const modalHandler = () => {
