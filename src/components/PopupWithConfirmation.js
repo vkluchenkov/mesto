@@ -10,7 +10,7 @@ export class PopupWithConfirmation extends Popup {
   _submitModal = () => {
     this._modalButton.textContent = "Удаление...";
     this._submitHandler()
-      .then(this.close())
+      .then(() => this.close())
       .finally(() => {
         // Даем время попапу для fade out и меняем надпись
         setTimeout(() => {

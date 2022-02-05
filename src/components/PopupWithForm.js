@@ -21,7 +21,7 @@ export class PopupWithForm extends Popup {
     evt.preventDefault();
     this._button.textContent = "Сохранение...";
     this._submitHandler(this._getInputValues())
-      .then(this.close())
+      .then(() => this.close())
       .finally(() => {
         // Даем время попапу для fade out и меняем надпись
         setTimeout(() => {
