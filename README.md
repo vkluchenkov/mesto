@@ -1,21 +1,21 @@
-# Проект: Место
+# Проект: Место / Project: Mesto
 
-## Описание
+## Описание / Description
 
-Проектная работа №9 на курсе «Веб-разработчик» Яндекс.Практикума.
+Учебный проект по макету из Figma. В рамках проекта создано веб приложение, которое получает данные от сервера, позволяет редактировать профиль пользователя, добавлять и удалять карточки с фотографиями, ставить и снимать лайки.
+На данном этапе приложение написано на «ванильном» javascript. В рамках программы обучения планируется перевод приложения на React.js и расширение функционала.
 
-## Используемые технологии
+Study project, created from Figma design file. During the course of this project a web application is being created, which can download user data and photo cards from server, manage likes, add and remove photo cards, edit user profile and avatar.
+At this point, application is written on vanilla javascript. Within the framework of educational program, a new functionality planned as well as switching technology to React JS.
 
-- HTML
-- CSS
-- JS
+## Используемые технологии / Stack
+
+- HTML5
+- CSS3
+- JavaScript (ES6 Modules)
+- REST API
 - Webpack
 
-## Демо
+## Демо / Demo
 
-[Страница на GH Pages](https://vkluchenkov.github.io/mesto/)
-
-## Планы по доработке
-
-- Исправление ошибок согласно код-ревью
-- Добработки согласно заданиям следующих спринтов
+[GH Pages](https://vkluchenkov.github.io/mesto/)
